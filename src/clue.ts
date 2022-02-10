@@ -58,7 +58,7 @@ export function describeClue(clue: CluedLetter[]): string {
     .join(", ");
 }
 
-export function violation(
+function violation(
   difficulty: Difficulty,
   clues: CluedLetter[],
   guess: string
@@ -104,4 +104,50 @@ export function violation(
     ++i;
   }
   return undefined;
+}
+
+export function checkForViolations(
+  difficulty: Difficulty,
+  guesses: string[],
+  target: string,
+  guess: string
+): string[] {
+  let problems: string[] = [];
+  for (const g of guesses) {
+    const feedback = violation(difficulty, clue(g, target), guess);
+    if (feedback) {
+      problems.push(feedback);
+    }
+  }
+  return problems;
+}
+
+
+export function isLetterAllowed(
+  letter: string,
+  allowed: string
+): boolean {
+	return allowed.indexOf(letter) !== -1;
+}
+
+export function areAllLettersAllowed(
+  guess: string,
+  allowedLetters: string[]
+): string[] {
+  const guessLetters = guess.split("");
+  let problems: string[] = [];
+  for (var i = 0; i < guessLetters.length; i++) {
+    const letter = guessLetters[i];
+    const allowed = allowedLetters[i];
+    if ( ! isLetterAllowed(letter, allowed)) {
+      const glyph = letter.toUpperCase();
+      const nth = ordinal(i + 1);
+      if (allowed.length === 1) {
+        problems.push(`${nth} letter must be ${allowed.toUpperCase()}`);
+      } else {
+        problems.push(`${nth} letter has already been ${glyph}`);
+      }
+    }
+  }
+  return problems;
 }

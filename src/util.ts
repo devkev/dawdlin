@@ -6,7 +6,7 @@ export enum Difficulty {
   UltraHard,
 }
 
-export const maxGuesses = 6;
+export const maxGuesses = 100;
 
 export const dictionarySet: Set<string> = new Set(dictionary);
 
@@ -23,8 +23,21 @@ export function urlParam(name: string): string | null {
   return new URLSearchParams(window.location.search).get(name);
 }
 
-export const seed = Number(urlParam("seed"));
-const makeRandom = () => (seed ? mulberry32(seed) : () => Math.random());
+export const todaySeed = () => {
+  const d = new Date();
+  return `${d.getFullYear()}`.padStart(4,'0') +
+         `${d.getMonth()+1}`.padStart(2,'0') +
+         `${d.getDate()}`.padStart(2,'0');
+};
+
+export const seedOffset = 123456;
+export const seed = (urlParam("s") !== null)
+  ? (Number(urlParam("s")) + seedOffset)
+  : (urlParam("today") !== null || urlParam("todas") !== null ||
+      (urlParam("random") === null && urlParam("c") === null))
+    ? Number(todaySeed()) + seedOffset
+    : seedOffset;
+const makeRandom = () => ((seed - seedOffset) ? mulberry32(seed) : () => Math.random());
 let random = makeRandom();
 
 export function resetRng(): void {
@@ -57,13 +70,13 @@ export function speak(
 }
 
 export function ordinal(n: number): string {
-  return n + ([, "st", "nd", "rd"][(n % 100 >> 3) ^ 1 && n % 10] || "th");
+  return n + ([undefined, "st", "nd", "rd"][(n % 100 >> 3) ^ 1 && n % 10] || "th");
 }
 
 export const englishNumbers =
   "zero one two three four five six seven eight nine ten eleven".split(" ");
 
-export function describeSeed(seed: number): string {
+export function describeSeed(seed: number, monthType?: "long" | "narrow" | "numeric" | "short" | "2-digit"): string {
   const year = Math.floor(seed / 10000);
   const month = Math.floor(seed / 100) % 100;
   const day = seed % 100;
@@ -80,7 +93,7 @@ export function describeSeed(seed: number): string {
   ) {
     return new Date(year, month - 1, day).toLocaleDateString("en-US", {
       day: "numeric",
-      month: "long",
+      month: monthType ?? "long",
       year: "numeric",
     });
   } else {

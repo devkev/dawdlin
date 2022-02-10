@@ -1,5 +1,5 @@
 import "./App.css";
-import { maxGuesses, seed, urlParam } from "./util";
+import { maxGuesses, seed, seedOffset, todaySeed, urlParam } from "./util";
 import Game from "./Game";
 import { useEffect, useState } from "react";
 import { About } from "./About";
@@ -26,8 +26,6 @@ function useSetting<T>(
   return [current, setSetting];
 }
 
-const todaySeed = new Date().toISOString().replace(/-/g, "").slice(0, 8);
-
 function App() {
   type Page = "game" | "about" | "settings";
   const [page, setPage] = useState<Page>("game");
@@ -46,7 +44,7 @@ function App() {
   useEffect(() => {
     document.body.className = dark ? "dark" : "";
     if (urlParam("today") !== null || urlParam("todas") !== null) {
-      document.location = "?seed=" + todaySeed;
+      document.location = "?s=" + todaySeed();
     }
     setTimeout(() => {
       // Avoid transition on page load
@@ -68,15 +66,7 @@ function App() {
   return (
     <div className={"App-container" + (colorBlind ? " color-blind" : "")}>
       <h1>
-        <span
-          style={{
-            color: difficulty > 0 ? "#e66" : "inherit",
-            fontStyle: difficulty > 1 ? "italic" : "inherit",
-          }}
-        >
-          hell
-        </span>
-        o wordl
+        dawdlin
       </h1>
       <div className="top-right">
         {page !== "game" ? (
@@ -96,8 +86,8 @@ function App() {
           visibility: page === "game" ? "visible" : "hidden",
         }}
       >
-        <a href={seed ? "?random" : "?seed=" + todaySeed}>
-          {seed ? "Random" : "Today's"}
+        <a href={(seed-seedOffset) ? "?random" : "?s=" + todaySeed()}>
+          {(seed-seedOffset) ? "Random" : "Today's"}
         </a>
       </div>
       {page === "about" && <About />}

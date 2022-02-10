@@ -13,6 +13,10 @@ body {
   justify-content: center;
 }
 
+.Row-pending {
+  display: none;
+}
+
 .Row-letter {
   margin: 2px;
   border: 2px solid rgba(128, 128, 128, 0.8);
@@ -124,29 +128,40 @@ table.Game-rows > tbody {
 .letter-correct {
   border: 2px solid rgba(0, 0, 0, 0.3);
   background-color: rgb(87, 172, 120);
-  color: white !important;
+  color: white;
 }
 
 .letter-elsewhere {
   border: 2px dotted rgba(0, 0, 0, 0.3);
   background-color: #e9c601;
-  color: white !important;
+  color: white;
 }
 
 .letter-absent {
   border: 2px solid transparent;
   background-color: rgb(162, 162, 162);
-  color: white !important;
+  color: white;
+}
+
+body.dark .Game-keyboard-button.letter-absent {
+  background-color: rgba(162, 162, 162, 0.5);
+  color: white;
+}
+
+.letter-disallowed {
+  border: 2px solid transparent;
+  background-color: rgb(182, 60, 60);
+  color: white;
 }
 
 body.dark {
-  background-color: #404040;
+  background-color: #121213;
   color: #e0e0e0;
   color-scheme: dark;
 }
 
 body.dark .Game-keyboard-button {
-  color: #404040;
+  color: #121213;
 }
 
 a,
@@ -268,4 +283,15 @@ a:active {
 .App-container.color-blind .letter-elsewhere,
 .App-container.color-blind .App-about b.yellow-bg {
   background-color: #85c0f9;
+}
+
+.App-container.color-blind .letter-disallowed,
+.App-container.color-blind .App-about b.red-bg {
+  background-color: rgb(0, 0, 0);
+}
+
+body.dark .App-container.color-blind .letter-disallowed,
+body.dark .App-container.color-blind .App-about b.red-bg {
+  color: black;
+  background-color: rgb(255, 255, 255);
 }
