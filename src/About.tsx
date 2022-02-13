@@ -195,13 +195,15 @@ export function About() {
       <hr />
       <p>
         Report issues{" "}
-        <a href="https://github.com/devkev/dawdlin/issues">here</a>, or email{" "}
-        <a href="mailto:info@dawdl.in">info@dawdl.in</a>.
+        <a href="https://github.com/devkev/dawdlin/issues">here</a>,
+        email <a href="mailto:info@dawdl.in">info@dawdl.in</a>,
+        or tweet <a href="https://twitter.com/_devkev_">@_devkev_</a>.
       </p>
       <p>
-        This game is built on the excellent <a href="https://hellowordl.net/">hello
+        Dawdlin is built on the excellent <a href="https://hellowordl.net/">hello
         wordl</a>, a free and open-source Wordle clone by <a href="https://github.com/lynn">lynn</a>.
-        Like hello wordl, dawdlin will be free and ad-free forever.
+        It uses the <a href="https://github.com/devkev/dawdlin#where-are-the-words-coming-from">
+        same word lists</a>, and like hello wordl, dawdlin will be free and ad-free forever.
       </p>
     </div>
   );
