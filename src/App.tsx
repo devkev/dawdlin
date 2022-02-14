@@ -44,7 +44,7 @@ function App() {
   useEffect(() => {
     document.body.className = dark ? "dark" : "";
     if (urlParam("today") !== null || urlParam("todas") !== null) {
-      document.location = "?s=" + todaySeed();
+      document.location = `?s=${todaySeed()}`;
     }
     setTimeout(() => {
       // Avoid transition on page load
@@ -79,6 +79,7 @@ function App() {
         )}
       </div>
       <div
+        className="App-top-left-buttons"
         style={{
           position: "absolute",
           left: 5,
@@ -86,9 +87,24 @@ function App() {
           visibility: page === "game" ? "visible" : "hidden",
         }}
       >
-        <a href={(seed-seedOffset) ? "?random" : "?s=" + todaySeed()}>
-          {(seed-seedOffset) ? "Random" : "Today's"}
-        </a>
+        <button
+          className="App-top-left-button"
+          style={{
+            display: ( !(seed-seedOffset) || `${seed-seedOffset}` != today ) ? "block" : "none",
+          }}
+          onClick={() => window.location.search = `?s=${todaySeed()}`}
+        >
+          Today's
+        </button>
+        <button
+          className="App-top-left-button"
+          style={{
+            display: (seed-seedOffset) ? "block" : "none",
+          }}
+          onClick={() => window.location.search = "?random"}
+        >
+          Random
+        </button>
       </div>
       {page === "about" && <About />}
       {page === "settings" && (
