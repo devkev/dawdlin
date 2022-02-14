@@ -19,6 +19,7 @@ export function About() {
           <li>Incorrect letters <i>can't be reused in the same place</i>.</li>
           <li>Correct letters <i>must</i> be reused where they belong.</li>
         </ul>
+        This is similar to Wordle's Hard Mode, but not quite the same.
       </p>
       <hr />
       <p>
